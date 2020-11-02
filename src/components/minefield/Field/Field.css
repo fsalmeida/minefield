@@ -1,0 +1,4 @@
+.minefield .field{
+    display: inline-block;
+    margin: 2px;
+}

@@ -13,19 +13,26 @@ class Minefield extends React.Component {
     onToggle(line, column) {
         let toggleResult = this.minefieldGame.toggle(line, column);
 
+        this.setState({
+            minefieldGame: this.minefieldGame
+        })
+
         if (toggleResult.hasExploded) {
             alert("Você explodiu!");
         }
         else if (toggleResult.isWinner)
             alert("Você ganhou!");
-
-        this.setState({
-            minefieldGame: this.minefieldGame
-        })
     }
 
     render() {
         return <div className="minefield">
+
+            {
+                this.minefieldGame.endOfGame ?
+                    (<div>Acabou</div>)
+                    : ''
+            }
+
             {
                 this.minefieldGame.field.map((minefieldRow, lineIndex) => {
                     const minefieldRowItems = minefieldRow.map((field, columnIndex) => {
@@ -41,7 +48,7 @@ class Minefield extends React.Component {
                     );
                 })
             }
-        </div>
+        </div >
     }
 }
 

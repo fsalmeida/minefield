@@ -126,7 +126,7 @@ describe('Testes relativos às ações no seguinte campo 4 por 4: *........*....
         expect(minefieldGame.isWinner).toBe(true);
     });
 
-    test.only('Ao "alternar" um elemento com valor igual a zero, todos os elementos em volta devem ser "alternados", de forma recursiva', () => {
+    test('Ao "alternar" um elemento com valor igual a zero, todos os elementos em volta devem ser "alternados", de forma recursiva', () => {
         let minefieldGame = new MinefieldGame(4, 4, '*........*......');
         minefieldGame.toggle(0, 3);
         const toggledFieldItems = minefieldGame.field.flatMap(fieldLine => fieldLine)

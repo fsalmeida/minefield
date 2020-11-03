@@ -131,5 +131,6 @@ class MinefieldGame {
 
 
 module.exports = {
-    MinefieldGame
+    MinefieldGame,
+    BOMB_SYMBOL
 };

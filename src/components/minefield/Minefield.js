@@ -1,54 +1,67 @@
 import React from 'react';
 import './Minefield.css';
 import Field from './Field/Field';
-const { MinefieldGame } = require('../../js/MinefieldGame')
+import Button from 'react-bootstrap/Button';
+const { MinefieldGameGenerator } = require('../../js/MinefieldGameGenerator')
 
 class Minefield extends React.Component {
     constructor(props) {
         super(props);
 
-        this.minefieldGame = new MinefieldGame(4, 4, '*........*......');
+        this.setup = {
+            lines: 6,
+            columns: 6,
+            bombs: 5
+        };
+
+        this.newGame();
     }
 
     onToggle(line, column) {
-        let toggleResult = this.minefieldGame.toggle(line, column);
+        const toggleResult = this.minefieldGame.toggle(line, column);
 
         this.setState({
             minefieldGame: this.minefieldGame
         })
 
         if (toggleResult.hasExploded) {
-            alert("Você explodiu!");
+            setTimeout(() => alert("Você explodiu!"), 100);
         }
         else if (toggleResult.isWinner)
-            alert("Você ganhou!");
+            setTimeout(() => alert("Parabéns, você ganhou!"), 100);
+    }
+
+    newGame() {
+        this.minefieldGame = new MinefieldGameGenerator()
+            .generateNewGame(this.setup.lines, this.setup.columns, this.setup.bombs);
+        this.setState({ minefieldGame: this.minefieldGame })
     }
 
     render() {
-        return <div className="minefield">
+        return <div>
+            <div>
+                <Button variant="primary" onClick={() => this.newGame()}>
+                    Novo jogo
+                </Button>
+            </div>
+            <div className="minefield">
+                {
+                    this.minefieldGame.field.map((minefieldRow, lineIndex) => {
+                        const minefieldRowItems = minefieldRow.map((field, columnIndex) => {
+                            return <Field key={`${lineIndex}-${columnIndex}`} field={field}
+                                disabled={this.minefieldGame.endOfGame} onToggle={() => this.onToggle(lineIndex, columnIndex)}>
+                            </Field>
+                        });
 
-            {
-                this.minefieldGame.endOfGame ?
-                    (<div>Acabou</div>)
-                    : ''
-            }
-
-            {
-                this.minefieldGame.field.map((minefieldRow, lineIndex) => {
-                    const minefieldRowItems = minefieldRow.map((field, columnIndex) => {
-                        return <Field key={`${lineIndex}-${columnIndex}`} field={field}
-                            disabled={this.minefieldGame.endOfGame} onToggle={() => this.onToggle(lineIndex, columnIndex)}>
-                        </Field>
-                    });
-
-                    return (
-                        <div className="minefield-row">
-                            {minefieldRowItems}
-                        </div>
-                    );
-                })
-            }
-        </div >
+                        return (
+                            <div key={lineIndex} className="minefield-row">
+                                {minefieldRowItems}
+                            </div>
+                        );
+                    })
+                }
+            </div >
+        </div>
     }
 }
 

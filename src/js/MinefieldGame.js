@@ -104,11 +104,15 @@ class MinefieldGame {
         this.field = buildField(lines, columns, inputField);
         this.endOfGame = false;
         this.isWinner = false;
+        this.movements = 0;
     }
 
     toggle(row, line) {
         let fieldItem = this.field[row][line];
-        fieldItem.isToggled = true;
+        if (!fieldItem.isToggled) {
+            fieldItem.isToggled = true;
+            this.movements++;
+        }
 
         if (fieldItem.value == BOMB_SYMBOL) {
             this.endOfGame = true;

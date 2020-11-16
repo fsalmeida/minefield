@@ -7,14 +7,32 @@ export default function MinefieldPage(props) {
     const [lines, setLines] = useState(8);
     const [columns, setColumns] = useState(8);
     const [bombs, setBombs] = useState(5);
-    const onLinesChanged = (e) => setLines(e.target.value);
-    const onColumnsChanged = (e) => setColumns(e.target.value);
-    const onBombsChanged = (e) => setBombs(e.target.value);
+    const [maxBombs, setMaxBombs] = useState(8 * 8 - 1);
+    const onLinesChanged = (e) => {
+        const linesValue = parseInt(e.target.value)
+        setLines(linesValue)
+        updateMaxBombs(linesValue, columns);
+    };
+    const onColumnsChanged = (e) => {
+        const columnsValue = parseInt(e.target.value)
+        setColumns(columnsValue)
+        updateMaxBombs(lines, columnsValue)
+    };
+    const onBombsChanged = (e) => setBombs(parseInt(e.target.value));
     const handleFormSubmit = (event) => {
         event.preventDefault();
 
         let minefieldGame = new MinefieldGameGenerator().generateNewGame(lines, columns, bombs);
         props.onNewGame(minefieldGame);
+    }
+
+    const updateMaxBombs = (linesValue, columnsValue) => {
+        let maxBombsValue = 0;
+        if (linesValue > 0 && columnsValue > 0)
+            maxBombsValue = linesValue * columnsValue - 1;
+
+        console.log(maxBombsValue)
+        setMaxBombs(maxBombsValue)
     }
 
     useEffect(() => {
@@ -65,7 +83,7 @@ export default function MinefieldPage(props) {
                         </InputGroup.Prepend>
                         <FormControl
                             min="1"
-                            max="20"
+                            max={maxBombs}
                             required
                             aria-label="Bombs"
                             aria-describedby="bombs"

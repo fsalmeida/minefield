@@ -10,7 +10,7 @@ export default function MinefieldPage(props) {
     const [maxBombs, setMaxBombs] = useState(8 * 8 - 1);
     const onLinesChanged = (e) => {
         const linesValue = parseInt(e.target.value)
-        setLines(linesValue)
+        setLines(lines)
         updateMaxBombs(linesValue, columns);
     };
     const onColumnsChanged = (e) => {
@@ -50,6 +50,7 @@ export default function MinefieldPage(props) {
                             <InputGroup.Text id="lines">Linhas</InputGroup.Text>
                         </InputGroup.Prepend>
                         <FormControl
+                            type="number"
                             min="4"
                             max="16"
                             required
@@ -66,6 +67,7 @@ export default function MinefieldPage(props) {
                             <InputGroup.Text id="columns">Colunas</InputGroup.Text>
                         </InputGroup.Prepend>
                         <FormControl
+                            type="number"
                             min="4"
                             max="16"
                             required
@@ -82,6 +84,7 @@ export default function MinefieldPage(props) {
                             <InputGroup.Text id="bombs">Bombas</InputGroup.Text>
                         </InputGroup.Prepend>
                         <FormControl
+                            type="number"
                             min="1"
                             max={maxBombs}
                             required

@@ -1,8 +1,7 @@
 import React from 'react';
 import './Minefield.css';
 import Field from './Field/Field';
-import Button from 'react-bootstrap/Button';
-const { MinefieldGameGenerator } = require('../../js/MinefieldGameGenerator')
+const { MinefieldGameGenerator } = require('../../../js/MinefieldGameGenerator')
 
 class Minefield extends React.Component {
     constructor(props) {
@@ -38,12 +37,7 @@ class Minefield extends React.Component {
     }
 
     render() {
-        return <div>
-            <div>
-                <Button variant="primary" onClick={() => this.newGame()}>
-                    Novo jogo
-                </Button>
-            </div>
+        return (
             <div className="minefield">
                 {
                     this.minefieldGame.field.map((minefieldRow, lineIndex) => {
@@ -61,7 +55,7 @@ class Minefield extends React.Component {
                     })
                 }
             </div >
-        </div>
+        )
     }
 }
 

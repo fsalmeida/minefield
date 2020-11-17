@@ -10,7 +10,7 @@ export default function MinefieldPage(props) {
     const [maxBombs, setMaxBombs] = useState(8 * 8 - 1);
     const onLinesChanged = (e) => {
         const linesValue = parseInt(e.target.value)
-        setLines(lines)
+        setLines(linesValue)
         updateMaxBombs(linesValue, columns);
     };
     const onColumnsChanged = (e) => {

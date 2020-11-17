@@ -2,3 +2,8 @@
     display: inline-block;
     margin: 2px;
 }
+
+.minefield .field button{
+    height: 40px;
+    width: 40px;
+}

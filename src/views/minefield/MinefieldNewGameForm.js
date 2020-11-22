@@ -8,6 +8,8 @@ export default function MinefieldPage(props) {
     const [columns, setColumns] = useState(8);
     const [bombs, setBombs] = useState(5);
     const [maxBombs, setMaxBombs] = useState(8 * 8 - 1);
+    const [validated, setValidated] = useState(false);
+
     const onLinesChanged = (e) => {
         const linesValue = parseInt(e.target.value)
         setLines(linesValue)
@@ -22,8 +24,17 @@ export default function MinefieldPage(props) {
     const handleFormSubmit = (event) => {
         event.preventDefault();
 
-        let minefieldGame = new MinefieldGameGenerator().generateNewGame(lines, columns, bombs);
-        props.onNewGame(minefieldGame);
+        const form = event.currentTarget;
+        if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        else {
+            let minefieldGame = new MinefieldGameGenerator().generateNewGame(lines, columns, bombs);
+            props.onNewGame(minefieldGame);
+        }
+
+        setValidated(true);
     }
 
     const updateMaxBombs = (linesValue, columnsValue) => {
@@ -41,7 +52,7 @@ export default function MinefieldPage(props) {
     }, []);
 
     return (
-        <Form onSubmit={handleFormSubmit}>
+        <Form noValidate validated={validated} onSubmit={handleFormSubmit}>
             <h2>Novo jogo</h2>
             <div className="row">
                 <div className="col-md-4">
@@ -59,6 +70,9 @@ export default function MinefieldPage(props) {
                             value={lines}
                             onChange={onLinesChanged}
                         />
+                        <Form.Control.Feedback type="invalid">
+                            Insira um valor válido, entre 4 e 16
+                        </Form.Control.Feedback>
                     </InputGroup>
                 </div>
                 <div className="col-md-4">
@@ -76,6 +90,9 @@ export default function MinefieldPage(props) {
                             value={columns}
                             onChange={onColumnsChanged}
                         />
+                        <Form.Control.Feedback type="invalid">
+                            Insira um valor válido, entre 4 e 16
+                        </Form.Control.Feedback>
                     </InputGroup>
                 </div>
                 <div className="col-md-4">
@@ -93,6 +110,9 @@ export default function MinefieldPage(props) {
                             value={bombs}
                             onChange={onBombsChanged}
                         />
+                        <Form.Control.Feedback type="invalid">
+                            Insira um valor válido, entre 4 e {maxBombs}
+                        </Form.Control.Feedback>
                     </InputGroup>
                 </div>
             </div>
